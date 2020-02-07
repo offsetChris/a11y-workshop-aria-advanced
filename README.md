@@ -20,5 +20,5 @@ There are some outlying questions that need to be answered:
 
 
 ## Helpful examples:
-[WAI-ARIA-Practices 1.1 Alert example](https://www.w3.org/TR/wai-aria-practices-1.1/examples/alert/alert.html)
-[WAI-ARIA-Practices 1.1 Accordion Example using aria-owns](https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html)
+* [WAI-ARIA-Practices 1.1 Alert example](https://www.w3.org/TR/wai-aria-practices-1.1/examples/alert/alert.html)
+* [WAI-ARIA-Practices 1.1 Accordion Example using aria-owns](https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html)
