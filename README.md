@@ -1,10 +1,13 @@
 # A11y-workshop-advanced-aria 
 
+[Live Presentation](https://offsetchris.github.io/a11y-workshop-aria-advanced/)
+
 * aria-live &ndash; when and how to use effectively
 * aria-live and role similarities
 * aria-haspopup &ndash; what it means and how to use
 * aria-expanded &ndash; what it means and where to use
 * aria-controls &ndash; basic meaning and implementation
+
 
 
 Some basics about each topic listed and a few live examples. More will be added in the future! 
