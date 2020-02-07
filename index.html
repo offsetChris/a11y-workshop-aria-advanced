@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Advanced ARIA Techniques</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='styles/style.css' />
+  </head>
+  <body>
+    <main>
+      <section id="introduction" aria-label="Down events introduction">
+        <h1>Advanced ARIA Techniques<span class="presentedby">Presented by <strong>Christina Adams</strong></span></h1>
+        
+        <strong>Topics this presentation will cover:</strong>
+        <ul>
+          <li>aria-live &ndash; when and how to use effectively</li>
+          <li>aria-live and role similarities</li>
+          <li>aria-haspopup &ndash; what it means and how to use</li>
+          <li>aria-expanded &ndash; what it means and where to use</li>
+          <li>aria-controls &ndash; basic meaning and implementation</li>
+        </ul>
+        
+        <a class="next-button" href="#section1">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a>
+      </section>
+
+      <section id="section1">
+        <h2>What is aria-live?</h2>
+        <ul>
+          <li><span class="code">aria-live</span> is an attribute that defines a &ldquo;Live Region&rdquo; in a web page document</li>
+          <li>With JavaScript it is possible to change parts of a page dynamically without reloading the entire page. These changes are aparent visually but are often not apparent to assistive technology</li>
+          <li><span class="code">aria-live</span> is a programatic way to expose these dynamic content changes to assistive technology that will be announced to a user<span class="source">1</span></li>
+          <li>A live region of a page is monitored by the browser and/or assistive tech for changes to the inner content</li>
+          <li>The value set in <span class="code">aria-live</span> tells technology how important the update is, and when it should be announced</li>
+          <li>Any changes inside of a live region will be announced regardless of level of descendant (if you put aria-live on the body, every single content change will be announced)</li>
+          <li>User agents (browsers or screenreaders) can choose to clear the queued order of announcement, so chaining live region changes together is not reliable</li>
+        </ul>
+        <a class="next-button" href="#section2">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a> 
+      </section>
+
+      <section id="section2" aria-label="How to use aria-live">
+        <h2>How to use aria-live</h2>
+        <p>The attribute <span class="code">aria-live</span> should be placed on an element that is <strong>present in the document</strong> when the page loads.</p>
+        <p>This element with <span class="code">aria-live</span> is then updated with dynamic content that will be announced to the user.</p>
+        <div class="columns">
+          <pre><code>
+<span class="underline">HTML</span>
+&lt;div aria-live="polite"&gt;
+  &lt;p id="liveTarget"&gt; &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;form id="liveForm"&gt;
+  &lt;label for="liveText"&gt;
+  &lt;input type="text" id="liveText"&gt;
+  &lt;button type="submit"&gt;Change content&lt;/button&gt;
+&lt;/form&gt;
+          </code></pre>
+          <pre><code>
+<span class="underline">JavaScript</span>
+var liveForm = document.getElementById('liveForm');
+var liveTarget = document.getElementById('liveTarget');
+var liveText = document.getElementById('liveText');
+
+liveForm.addEventListener('submit', function(e){
+  e.preventDefault();
+    liveTarget.innerHTML = liveText.value;
+});
+          </code></pre>
+        </div>
+          <div class="demo-stage">
+            <p class="instruction-text">Type in and submit text to update the live region represented by the outlined box.</p>
+            <div class="missing-content" aria-live="polite">
+              <p id="liveTarget"></p>
+            </div>
+            <form id="liveForm">
+              <label for="liveText">Text to insert</label>
+              <input type="text" id="liveText">
+              <button type="submit">Change content</button>
+            </form>
+          </div>
+        <a class="next-button" href="#section3">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a> 
+      </section>
+
+      <section id="section3" aria-label="How is content change announced?">
+        <h2>How is the content change announced?</h2>
+        <p>The value that is assigned to the <span class="code">aria-live</span> attribute tells assistive tech when to announce the changes, also known as the interruption policy or the level of importance</p>
+        <strong>Interruption policy opitons</strong>
+        <div class="columns">
+          <div>
+            <ul>
+              <li><span class="code">polite</span> &ndash; Announces content change when other tasks are finished and screen reader is idle</li>
+              <li><span class="code">assertive</span> &ndash; Announces content change immediately interrupting any other task in process</li>
+              <li><span class="code">off</span> &ndash; Turns off monitoring of content changes within that container</li>
+            </ul>
+          </div>
+          <pre><code>
+&lt;div aria-live="polite"&gt;
+  &lt;<em>!-- Dynamic content goes here </em>--&gt;
+&lt;/div&gt;
+          </code></pre>
+        </div>
+        <a class="next-button" href="#section4">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a> 
+      </section>
+
+      <section id="section4" aria-label="Aria-live and role alert">
+        <h2>aria-live and role alert</h2>
+        <p><span class="code">aria-live="assertive"</span> is equivalent to <span class="code">role="alert"</span></p>
+        <p>When using <span class="code">role="alert"</span> VoiceOver on iOS requires <span class="code">aria-atomic="true"</span> to read the error message after more than one appears.<span class="source">2</span></p>
+        <p>Adding redundant role of alert and aria-live assertive has been known to cause screenreaders to <strong>double-speak</strong> the dynamic content.</p>
+        <ul>
+          <li><span class="code">aria-live="assertive"</span>  ===  <span class="code">role="alert"</span></li>
+          <li><span class="code">aria-live="polite"</span>  ===  <span class="code">role="status"</span></li>
+          <li>there is also a <span class="code">role="log"</span> equivalent to a polite setting</li>
+          <li>Browser support <em>might</em> be an issue for using roles, however role="alert" seems pretty well supported in my opinion.</li>
+        </ul>
+        <a class="next-button" href="#section5">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a> 
+      </section>
+
+      <section id="section5" aria-label="When does aria-live or role alert fail?">
+        <h2>When does aria-live or role="alert" fail?</h2>
+        <p>Aria-live or role alert added dynamically in a document after it has loaded will generally have no effect because the browser and assistive technology are not aware of the live region and can not monitor the contents for changes.</p>
+        <p>*Note this did actually work for me on VoiceOver iOS so I wonder if there is just missing support for certain combinations.</p>
+        <div class="columns">
+          <pre><code>
+<strong class="underline">HTML</strong>
+&lt;div&gt;
+  &lt;p id="targetFail"&gt; &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;form id="formFail"&gt;
+  &lt;label for="textFail"&gt;
+  &lt;input type="text" id="textFail"&gt;
+  &lt;button type="submit"&gt;Change content&lt;/button&gt;
+&lt;/form&gt;
+          </code></pre>
+          <pre><code>
+<strong class="underline">JavaScript</strong>
+var form = document.getElementById('formFail');
+var target = document.getElementById('targetFail');
+var text = document.getElementById('textFail');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  target.parentElement.setAttribute('aria-live','polite');
+  target.innerHTML = text.value; 
+});
+          </code></pre>
+        </div>
+        <div class="demo-stage">
+          <p class="instruction-text">Type in and submit text to update the live region represented by the outlined box.</p>
+          <div class="missing-content">
+            <p id="liveTargetFail"></p>
+          </div>
+          <form id="liveFormFail">
+            <label for="liveTextFail">Text to insert</label>
+            <input type="text" id="liveTextFail">
+            <button type="submit">Change content</button>
+          </form>
+        </div>
+        <a class="next-button" href="#section6">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a> 
+      </section>
+
+      <section id="section6" aria-label="Aria-haspopup">
+        <h2>Aria-haspopup</h2>
+        <ul>
+          <li>Indicates that an interactive popup element can be triggered from the element that has this attribute.</li>
+          <li>The popup usually appears as a block of content <strong>on top of other content</strong></li>
+          <li>The popup element <strong>must</strong> have a role of <span class="code">menu</span>, <span class="code">listbox</span>, <span class="code">tree</span>, <span class="code">grid</span> or <span class="code">dialog</span></li>
+          <li>The value of the <span class="code">aria-haspopup</span> attribute <strong>must match</strong> the <span class="code">role</span> of the popup element.</li>
+          <li>A tooltip is <strong>not</strong> considered to be a popup<span class="source">3</span></li>
+          <li>Technology support for specific roles is... iffy</li>
+        </ul>
+        <pre><code>
+&lt;button aria-haspopup="menu"&gt;Open the Dialog Element&lt;/button&gt;
+
+&lt;div role="menu"&gt;Content of the menu that is placed on top of other page content.&lt;/div&gt;
+        </code></pre>
+
+        <p>When aria-haspopup is implemented keyboard focus is an issue that authors will need to handle and test.</p>
+
+        <p><span class="code">aria-haspopup="true"</span> is treated as the value <span class="code">menu</span> to be compatible with ARIA 1.0.</p>
+        <p>According to the Authoring Practices<span class="source">4</span>  it is used in several other widget patterns such as menu, combobox, menu, menubar and others. Specifics should be referenced in the authoring practices or 1.1 guidelines.</p>
+        <a class="next-button" href="#section7">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a> 
+      </section>
+
+      <section id="section7" aria-label="Aria-expanded">
+        <h2>Aria-expanded</h2>
+        <ul>
+          <li>Describes the state of another element on the controling element (usually a link or button)</li>
+          <li>Indicates whether this element or an element that it controls is currently expanded or collapsed</li>
+          <li>Is assigned a value of <span class="code">true</span> or <span class="code">false</span></li>
+          <li>For example a button when clicked shows hidden child elements</li>
+          <li>Or an accordion where a button is clicked and expands another container of content<span class="source">5</span></li>
+          <li>JavaScript would be used here to toggle the value of <span class="code">aria-expanded</span> when the user action occurs to toggle the state</li>
+        </ul>
+        
+        <pre><code>
+&lt;button aria-expanded="false"&gt;Toggle the hidden children 
+  &lt;span class="hidden-children"&gt;This is hidden until the user clicks the button&lt;/span&gt;
+&lt;/button&gt;
+        </code></pre>
+
+        <p>If the element with aria-expanded controls another container that is not a child of the element, the author <strong>should</strong> reference the container with <span class="code">aria-controls</span></p>
+        <a class="next-button" href="#section8">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>Down arrow</title>
+          <path fill="#fff" d="M32 16c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zM3 16c0-7.18 5.82-13 13-13s13 5.82 13 13-5.82 13-13 13-13-5.82-13-13z"></path>
+          <path fill="#fff" d="M9.914 11.086l-2.829 2.829 8.914 8.914 8.914-8.914-2.828-2.828-6.086 6.086z"></path>
+          </svg>
+        </a> 
+      </section>
+
+      <section id="section8" aria-label="Aria-controls">
+        <h2>Aria-controls</h2>
+        <ul>
+          <li>Indicates the element with this attribute controls another element that is not a descendant</li>
+          <li>The value of <span class="code">aria-controls</span> must reference an ID available in the DOM</li>
+          <li>It does not reorder the accessibility tree, and does not define a parent/child relationship</li>
+        </ul>
+        <pre><code>
+&lt;button aria-controls="accordionContent" aria-expanded="false"&gt;This controls the neighboring content&lt;/button&gt;
+&lt;div id="accordionContent"&gt;The button toggles the state of this element&lt;/div&gt;
+        </code></pre>
+
+        <p><span class="code">aria-owns</span> is a related attribute that can take a space separated list of ID references to define the parent/child relationship that is not expressed in the DOM heirarchy.</p>
+
+        <p>Note: both <span class="code">aria-controls</span> and <span class="code">aria-owns</span> should not be thought of as a replacement for DOM heirarchy. DOM heirarchy is still better, and will take president over any aria implementation.</p>
+      </section>
+
+
+    </main>
+    <footer>
+      <h2>Sources:</h2>
+      <ol>
+        <li><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions">MDN ARIA live regions</a></li>
+        <li><a target="_blank" href="https://www.w3.org/TR/WCAG20-TECHS/ARIA19.html">ARIA19: Using ARIA role=alert or Live Regions to Identify Errors</a></li>
+        <li><a target="_blank" href="https://www.w3.org/TR/wai-aria">Accessible Rich Internet Applications (WAI-ARIA) 1.1</a></li>
+        <li><a tartet="_blank" href="https://www.w3.org/TR/wai-aria-practices/">WAI-ARIA Authoring Practices 1.1</a></li>
+        <li><a href="https://www.w3.org/WAI/GL/wiki/Using_aria-expanded_to_indicate_the_state_of_a_collapsible_element">WAI guidelines technique. Using aria-expanded to indicate the state of a collapsible element.</a></li>
+      </ol>
+    </footer>
+    <script type="text/javascript" src="scripts/script.js"></script>
+  </body>
+</html>
