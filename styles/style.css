@@ -104,6 +104,7 @@ button.hover-effect:hover + .showMe p, button.hover-effect:focus + .showMe p{
 }
 button[type="submit"]{
   margin:20px 0px;
+  padding:10px 20px;
 }
 .demo-stage{
   margin:10px 0;
