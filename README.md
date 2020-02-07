@@ -1,4 +1,4 @@
-#A11y-workshop-advanced-aria 
+# A11y-workshop-advanced-aria 
 
 * aria-live &ndash; when and how to use effectively
 * aria-live and role similarities
@@ -19,6 +19,6 @@ There are some outlying questions that need to be answered:
 * General browser support issues for aria-haspopup="[role]"
 
 
-##Helpful examples:
+## Helpful examples:
 [WAI-ARIA-Practices 1.1 Alert example](https://www.w3.org/TR/wai-aria-practices-1.1/examples/alert/alert.html)
 [WAI-ARIA-Practices 1.1 Accordion Example using aria-owns](https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html)
